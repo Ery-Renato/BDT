@@ -1,0 +1,193 @@
+<html>
+<head>
+<title>RelatoriosActivity.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #6aab73;}
+.s4 { color: #7a7e85;}
+.ln { color: #4b5059; font-weight: normal; font-style: normal; }
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+RelatoriosActivity.java</font>
+</center></td></tr></table>
+<pre><a name="l1"><span class="ln">1    </span></a><span class="s0">package </span><span class="s1">com</span><span class="s2">.</span><span class="s1">xtremeprojetos</span><span class="s2">.</span><span class="s1">bdt</span><span class="s2">;</span>
+<a name="l2"><span class="ln">2    </span></a>
+<a name="l3"><span class="ln">3    </span></a><span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">database</span><span class="s2">.</span><span class="s1">Cursor</span><span class="s2">;</span>
+<a name="l4"><span class="ln">4    </span></a><span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">database</span><span class="s2">.</span><span class="s1">sqlite</span><span class="s2">.</span><span class="s1">SQLiteDatabase</span><span class="s2">;</span>
+<a name="l5"><span class="ln">5    </span></a><span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">os</span><span class="s2">.</span><span class="s1">Bundle</span><span class="s2">;</span>
+<a name="l6"><span class="ln">6    </span></a><span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">view</span><span class="s2">.</span><span class="s1">View</span><span class="s2">;</span>
+<a name="l7"><span class="ln">7    </span></a><span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">widget</span><span class="s2">.</span><span class="s1">Button</span><span class="s2">;</span>
+<a name="l8"><span class="ln">8    </span></a><span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">widget</span><span class="s2">.</span><span class="s1">EditText</span><span class="s2">;</span>
+<a name="l9"><span class="ln">9    </span></a><span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">widget</span><span class="s2">.</span><span class="s1">Toast</span><span class="s2">;</span>
+<a name="l10"><span class="ln">10   </span></a>
+<a name="l11"><span class="ln">11   </span></a><span class="s0">import </span><span class="s1">androidx</span><span class="s2">.</span><span class="s1">appcompat</span><span class="s2">.</span><span class="s1">app</span><span class="s2">.</span><span class="s1">AppCompatActivity</span><span class="s2">;</span>
+<a name="l12"><span class="ln">12   </span></a>
+<a name="l13"><span class="ln">13   </span></a><span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">itextpdf</span><span class="s2">.</span><span class="s1">text</span><span class="s2">.</span><span class="s1">Document</span><span class="s2">;</span>
+<a name="l14"><span class="ln">14   </span></a><span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">itextpdf</span><span class="s2">.</span><span class="s1">text</span><span class="s2">.</span><span class="s1">Paragraph</span><span class="s2">;</span>
+<a name="l15"><span class="ln">15   </span></a><span class="s0">import </span><span class="s1">com</span><span class="s2">.</span><span class="s1">itextpdf</span><span class="s2">.</span><span class="s1">text</span><span class="s2">.</span><span class="s1">pdf</span><span class="s2">.</span><span class="s1">PdfWriter</span><span class="s2">;</span>
+<a name="l16"><span class="ln">16   </span></a>
+<a name="l17"><span class="ln">17   </span></a><span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">io</span><span class="s2">.</span><span class="s1">File</span><span class="s2">;</span>
+<a name="l18"><span class="ln">18   </span></a><span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">io</span><span class="s2">.</span><span class="s1">FileOutputStream</span><span class="s2">;</span>
+<a name="l19"><span class="ln">19   </span></a><span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">Properties</span><span class="s2">;</span>
+<a name="l20"><span class="ln">20   </span></a>
+<a name="l21"><span class="ln">21   </span></a><span class="s0">import </span><span class="s1">javax</span><span class="s2">.</span><span class="s1">activation</span><span class="s2">.</span><span class="s1">DataHandler</span><span class="s2">;</span>
+<a name="l22"><span class="ln">22   </span></a><span class="s0">import </span><span class="s1">javax</span><span class="s2">.</span><span class="s1">activation</span><span class="s2">.</span><span class="s1">DataSource</span><span class="s2">;</span>
+<a name="l23"><span class="ln">23   </span></a><span class="s0">import </span><span class="s1">javax</span><span class="s2">.</span><span class="s1">activation</span><span class="s2">.</span><span class="s1">FileDataSource</span><span class="s2">;</span>
+<a name="l24"><span class="ln">24   </span></a><span class="s0">import </span><span class="s1">javax</span><span class="s2">.</span><span class="s1">mail</span><span class="s2">.</span><span class="s1">BodyPart</span><span class="s2">;</span>
+<a name="l25"><span class="ln">25   </span></a><span class="s0">import </span><span class="s1">javax</span><span class="s2">.</span><span class="s1">mail</span><span class="s2">.</span><span class="s1">Message</span><span class="s2">;</span>
+<a name="l26"><span class="ln">26   </span></a><span class="s0">import </span><span class="s1">javax</span><span class="s2">.</span><span class="s1">mail</span><span class="s2">.</span><span class="s1">MessagingException</span><span class="s2">;</span>
+<a name="l27"><span class="ln">27   </span></a><span class="s0">import </span><span class="s1">javax</span><span class="s2">.</span><span class="s1">mail</span><span class="s2">.</span><span class="s1">Multipart</span><span class="s2">;</span>
+<a name="l28"><span class="ln">28   </span></a><span class="s0">import </span><span class="s1">javax</span><span class="s2">.</span><span class="s1">mail</span><span class="s2">.</span><span class="s1">PasswordAuthentication</span><span class="s2">;</span>
+<a name="l29"><span class="ln">29   </span></a><span class="s0">import </span><span class="s1">javax</span><span class="s2">.</span><span class="s1">mail</span><span class="s2">.</span><span class="s1">Session</span><span class="s2">;</span>
+<a name="l30"><span class="ln">30   </span></a><span class="s0">import </span><span class="s1">javax</span><span class="s2">.</span><span class="s1">mail</span><span class="s2">.</span><span class="s1">Transport</span><span class="s2">;</span>
+<a name="l31"><span class="ln">31   </span></a><span class="s0">import </span><span class="s1">javax</span><span class="s2">.</span><span class="s1">mail</span><span class="s2">.</span><span class="s1">internet</span><span class="s2">.</span><span class="s1">InternetAddress</span><span class="s2">;</span>
+<a name="l32"><span class="ln">32   </span></a><span class="s0">import </span><span class="s1">javax</span><span class="s2">.</span><span class="s1">mail</span><span class="s2">.</span><span class="s1">internet</span><span class="s2">.</span><span class="s1">MimeBodyPart</span><span class="s2">;</span>
+<a name="l33"><span class="ln">33   </span></a><span class="s0">import </span><span class="s1">javax</span><span class="s2">.</span><span class="s1">mail</span><span class="s2">.</span><span class="s1">internet</span><span class="s2">.</span><span class="s1">MimeMessage</span><span class="s2">;</span>
+<a name="l34"><span class="ln">34   </span></a><span class="s0">import </span><span class="s1">javax</span><span class="s2">.</span><span class="s1">mail</span><span class="s2">.</span><span class="s1">internet</span><span class="s2">.</span><span class="s1">MimeMultipart</span><span class="s2">;</span>
+<a name="l35"><span class="ln">35   </span></a>
+<a name="l36"><span class="ln">36   </span></a><span class="s0">public class </span><span class="s1">RelatoriosActivity </span><span class="s0">extends </span><span class="s1">AppCompatActivity </span><span class="s2">{</span>
+<a name="l37"><span class="ln">37   </span></a>
+<a name="l38"><span class="ln">38   </span></a>    <span class="s0">private </span><span class="s1">EditText etMesRelatorio</span><span class="s2">;</span>
+<a name="l39"><span class="ln">39   </span></a>    <span class="s0">private </span><span class="s1">Button btnGerarRelatorio</span><span class="s2">;</span>
+<a name="l40"><span class="ln">40   </span></a>    <span class="s0">private </span><span class="s1">Button btnEnviarRelatorio</span><span class="s2">;</span>
+<a name="l41"><span class="ln">41   </span></a>    <span class="s0">private <a href="BancoDeDados.java.html">BancoDeDados</a> </span><span class="s1">bancoDeDados</span><span class="s2">;</span>
+<a name="l42"><span class="ln">42   </span></a>
+<a name="l43"><span class="ln">43   </span></a>    <span class="s1">@Override</span>
+<a name="l44"><span class="ln">44   </span></a>    <span class="s0">protected void </span><span class="s1">onCreate</span><span class="s2">(</span><span class="s1">Bundle savedInstanceState</span><span class="s2">) {</span>
+<a name="l45"><span class="ln">45   </span></a>        <span class="s0">super</span><span class="s2">.</span><span class="s1">onCreate</span><span class="s2">(</span><span class="s1">savedInstanceState</span><span class="s2">);</span>
+<a name="l46"><span class="ln">46   </span></a>        <span class="s1">setContentView</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">layout</span><span class="s2">.</span><span class="s1">activity_relatorios</span><span class="s2">);</span>
+<a name="l47"><span class="ln">47   </span></a>
+<a name="l48"><span class="ln">48   </span></a>        <span class="s1">etMesRelatorio </span><span class="s2">= </span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">etMesRelatorio</span><span class="s2">);</span>
+<a name="l49"><span class="ln">49   </span></a>        <span class="s1">btnGerarRelatorio </span><span class="s2">= </span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">btnGerarRelatorio</span><span class="s2">);</span>
+<a name="l50"><span class="ln">50   </span></a>        <span class="s1">btnEnviarRelatorio </span><span class="s2">= </span><span class="s1">findViewById</span><span class="s2">(</span><span class="s1">R</span><span class="s2">.</span><span class="s1">id</span><span class="s2">.</span><span class="s1">btnEnviarRelatorio</span><span class="s2">);</span>
+<a name="l51"><span class="ln">51   </span></a>
+<a name="l52"><span class="ln">52   </span></a>        <span class="s1">bancoDeDados </span><span class="s2">= </span><span class="s0">new <a href="BancoDeDados.java.html">BancoDeDados</a></span><span class="s2">(</span><span class="s0">this</span><span class="s2">);</span>
+<a name="l53"><span class="ln">53   </span></a>
+<a name="l54"><span class="ln">54   </span></a>        <span class="s1">btnGerarRelatorio</span><span class="s2">.</span><span class="s1">setOnClickListener</span><span class="s2">(</span><span class="s0">new </span><span class="s1">View</span><span class="s2">.</span><span class="s1">OnClickListener</span><span class="s2">() {</span>
+<a name="l55"><span class="ln">55   </span></a>            <span class="s1">@Override</span>
+<a name="l56"><span class="ln">56   </span></a>            <span class="s0">public void </span><span class="s1">onClick</span><span class="s2">(</span><span class="s1">View v</span><span class="s2">) {</span>
+<a name="l57"><span class="ln">57   </span></a>                <span class="s1">String mes </span><span class="s2">= </span><span class="s1">etMesRelatorio</span><span class="s2">.</span><span class="s1">getText</span><span class="s2">().</span><span class="s1">toString</span><span class="s2">();</span>
+<a name="l58"><span class="ln">58   </span></a>                <span class="s1">gerarRelatorioPDF</span><span class="s2">(</span><span class="s1">mes</span><span class="s2">);</span>
+<a name="l59"><span class="ln">59   </span></a>            <span class="s2">}</span>
+<a name="l60"><span class="ln">60   </span></a>        <span class="s2">});</span>
+<a name="l61"><span class="ln">61   </span></a>
+<a name="l62"><span class="ln">62   </span></a>        <span class="s1">btnEnviarRelatorio</span><span class="s2">.</span><span class="s1">setOnClickListener</span><span class="s2">(</span><span class="s0">new </span><span class="s1">View</span><span class="s2">.</span><span class="s1">OnClickListener</span><span class="s2">() {</span>
+<a name="l63"><span class="ln">63   </span></a>            <span class="s1">@Override</span>
+<a name="l64"><span class="ln">64   </span></a>            <span class="s0">public void </span><span class="s1">onClick</span><span class="s2">(</span><span class="s1">View v</span><span class="s2">) {</span>
+<a name="l65"><span class="ln">65   </span></a>                <span class="s1">String destinatario </span><span class="s2">= </span><span class="s3">&quot;email_do_chefe@exemplo.com&quot;</span><span class="s2">; </span><span class="s4">// Substitua pelo e-mail do seu chefe</span>
+<a name="l66"><span class="ln">66   </span></a>                <span class="s1">String assunto </span><span class="s2">= </span><span class="s3">&quot;Relatório Mensal de Tráfego - &quot; </span><span class="s2">+ </span><span class="s1">etMesRelatorio</span><span class="s2">.</span><span class="s1">getText</span><span class="s2">().</span><span class="s1">toString</span><span class="s2">();</span>
+<a name="l67"><span class="ln">67   </span></a>                <span class="s1">String corpo </span><span class="s2">= </span><span class="s3">&quot;Segue em anexo o relatório mensal de tráfego.&quot;</span><span class="s2">;</span>
+<a name="l68"><span class="ln">68   </span></a>                <span class="s1">String caminhoArquivo </span><span class="s2">= </span><span class="s0">new </span><span class="s1">File</span><span class="s2">(</span><span class="s1">getExternalFilesDir</span><span class="s2">(</span><span class="s0">null</span><span class="s2">), </span><span class="s3">&quot;relatorio_&quot; </span><span class="s2">+ </span><span class="s1">etMesRelatorio</span><span class="s2">.</span><span class="s1">getText</span><span class="s2">().</span><span class="s1">toString</span><span class="s2">() + </span><span class="s3">&quot;.pdf&quot;</span><span class="s2">).</span><span class="s1">getAbsolutePath</span><span class="s2">();</span>
+<a name="l69"><span class="ln">69   </span></a>                <span class="s1">enviarEmail</span><span class="s2">(</span><span class="s1">destinatario</span><span class="s2">, </span><span class="s1">assunto</span><span class="s2">, </span><span class="s1">corpo</span><span class="s2">, </span><span class="s1">caminhoArquivo</span><span class="s2">);</span>
+<a name="l70"><span class="ln">70   </span></a>            <span class="s2">}</span>
+<a name="l71"><span class="ln">71   </span></a>        <span class="s2">});</span>
+<a name="l72"><span class="ln">72   </span></a>    <span class="s2">}</span>
+<a name="l73"><span class="ln">73   </span></a>
+<a name="l74"><span class="ln">74   </span></a>    <span class="s0">private void </span><span class="s1">gerarRelatorioPDF</span><span class="s2">(</span><span class="s1">String mes</span><span class="s2">) {</span>
+<a name="l75"><span class="ln">75   </span></a>        <span class="s0">try </span><span class="s2">{</span>
+<a name="l76"><span class="ln">76   </span></a>            <span class="s1">Document document </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Document</span><span class="s2">();</span>
+<a name="l77"><span class="ln">77   </span></a>            <span class="s1">String nomeArquivo </span><span class="s2">= </span><span class="s3">&quot;relatorio_&quot; </span><span class="s2">+ </span><span class="s1">mes </span><span class="s2">+ </span><span class="s3">&quot;.pdf&quot;</span><span class="s2">;</span>
+<a name="l78"><span class="ln">78   </span></a>            <span class="s1">File file </span><span class="s2">= </span><span class="s0">new </span><span class="s1">File</span><span class="s2">(</span><span class="s1">getExternalFilesDir</span><span class="s2">(</span><span class="s0">null</span><span class="s2">), </span><span class="s1">nomeArquivo</span><span class="s2">);</span>
+<a name="l79"><span class="ln">79   </span></a>            <span class="s1">PdfWriter</span><span class="s2">.</span><span class="s1">getInstance</span><span class="s2">(</span><span class="s1">document</span><span class="s2">, </span><span class="s0">new </span><span class="s1">FileOutputStream</span><span class="s2">(</span><span class="s1">file</span><span class="s2">));</span>
+<a name="l80"><span class="ln">80   </span></a>            <span class="s1">document</span><span class="s2">.</span><span class="s1">open</span><span class="s2">();</span>
+<a name="l81"><span class="ln">81   </span></a>
+<a name="l82"><span class="ln">82   </span></a>            <span class="s4">// Adicione o conteúdo do relatório ao documento</span>
+<a name="l83"><span class="ln">83   </span></a>            <span class="s1">document</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s0">new </span><span class="s1">Paragraph</span><span class="s2">(</span><span class="s3">&quot;Relatório Mensal de Tráfego - &quot; </span><span class="s2">+ </span><span class="s1">mes</span><span class="s2">));</span>
+<a name="l84"><span class="ln">84   </span></a>
+<a name="l85"><span class="ln">85   </span></a>            <span class="s4">// Obtenha os dados do banco de dados</span>
+<a name="l86"><span class="ln">86   </span></a>            <span class="s1">SQLiteDatabase db </span><span class="s2">= </span><span class="s1">bancoDeDados</span><span class="s2">.</span><span class="s1">getReadableDatabase</span><span class="s2">();</span>
+<a name="l87"><span class="ln">87   </span></a>            <span class="s1">Cursor cursor </span><span class="s2">= </span><span class="s1">db</span><span class="s2">.</span><span class="s1">query</span><span class="s2">(</span><span class="s3">&quot;bdts&quot;</span><span class="s2">, </span><span class="s0">null</span><span class="s2">, </span><span class="s3">&quot;strftime('%m/%Y', data) = ?&quot;</span><span class="s2">, </span><span class="s0">new </span><span class="s1">String</span><span class="s2">[]{</span><span class="s1">mes</span><span class="s2">}, </span><span class="s0">null</span><span class="s2">, </span><span class="s0">null</span><span class="s2">, </span><span class="s0">null</span><span class="s2">);</span>
+<a name="l88"><span class="ln">88   </span></a>
+<a name="l89"><span class="ln">89   </span></a>            <span class="s0">if </span><span class="s2">(</span><span class="s1">cursor</span><span class="s2">.</span><span class="s1">moveToFirst</span><span class="s2">()) {</span>
+<a name="l90"><span class="ln">90   </span></a>                <span class="s0">do </span><span class="s2">{</span>
+<a name="l91"><span class="ln">91   </span></a>                    <span class="s4">// Adicione os dados de cada BDT ao relatório</span>
+<a name="l92"><span class="ln">92   </span></a>                    <span class="s1">document</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s0">new </span><span class="s1">Paragraph</span><span class="s2">(</span><span class="s3">&quot;Data: &quot; </span><span class="s2">+ </span><span class="s1">cursor</span><span class="s2">.</span><span class="s1">getString</span><span class="s2">(</span><span class="s1">cursor</span><span class="s2">.</span><span class="s1">getColumnIndex</span><span class="s2">(</span><span class="s3">&quot;data&quot;</span><span class="s2">))));</span>
+<a name="l93"><span class="ln">93   </span></a>                    <span class="s1">document</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s0">new </span><span class="s1">Paragraph</span><span class="s2">(</span><span class="s3">&quot;Percurso/Destino: &quot; </span><span class="s2">+ </span><span class="s1">cursor</span><span class="s2">.</span><span class="s1">getString</span><span class="s2">(</span><span class="s1">cursor</span><span class="s2">.</span><span class="s1">getColumnIndex</span><span class="s2">(</span><span class="s3">&quot;percurso_destino&quot;</span><span class="s2">))));</span>
+<a name="l94"><span class="ln">94   </span></a>                    <span class="s4">// Adicione outros dados do BDT</span>
+<a name="l95"><span class="ln">95   </span></a>                    <span class="s1">document</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s0">new </span><span class="s1">Paragraph</span><span class="s2">(</span><span class="s3">&quot;-----------------------------------&quot;</span><span class="s2">));</span>
+<a name="l96"><span class="ln">96   </span></a>                <span class="s2">} </span><span class="s0">while </span><span class="s2">(</span><span class="s1">cursor</span><span class="s2">.</span><span class="s1">moveToNext</span><span class="s2">());</span>
+<a name="l97"><span class="ln">97   </span></a>            <span class="s2">}</span>
+<a name="l98"><span class="ln">98   </span></a>
+<a name="l99"><span class="ln">99   </span></a>            <span class="s1">cursor</span><span class="s2">.</span><span class="s1">close</span><span class="s2">();</span>
+<a name="l100"><span class="ln">100  </span></a>            <span class="s1">db</span><span class="s2">.</span><span class="s1">close</span><span class="s2">();</span>
+<a name="l101"><span class="ln">101  </span></a>
+<a name="l102"><span class="ln">102  </span></a>            <span class="s1">document</span><span class="s2">.</span><span class="s1">close</span><span class="s2">();</span>
+<a name="l103"><span class="ln">103  </span></a>
+<a name="l104"><span class="ln">104  </span></a>            <span class="s1">Toast</span><span class="s2">.</span><span class="s1">makeText</span><span class="s2">(</span><span class="s0">this</span><span class="s2">, </span><span class="s3">&quot;Relatório gerado com sucesso: &quot; </span><span class="s2">+ </span><span class="s1">file</span><span class="s2">.</span><span class="s1">getAbsolutePath</span><span class="s2">(), </span><span class="s1">Toast</span><span class="s2">.</span><span class="s1">LENGTH_LONG</span><span class="s2">).</span><span class="s1">show</span><span class="s2">();</span>
+<a name="l105"><span class="ln">105  </span></a>        <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">Exception e</span><span class="s2">) {</span>
+<a name="l106"><span class="ln">106  </span></a>            <span class="s1">e</span><span class="s2">.</span><span class="s1">printStackTrace</span><span class="s2">();</span>
+<a name="l107"><span class="ln">107  </span></a>            <span class="s1">Toast</span><span class="s2">.</span><span class="s1">makeText</span><span class="s2">(</span><span class="s0">this</span><span class="s2">, </span><span class="s3">&quot;Erro ao gerar relatório&quot;</span><span class="s2">, </span><span class="s1">Toast</span><span class="s2">.</span><span class="s1">LENGTH_SHORT</span><span class="s2">).</span><span class="s1">show</span><span class="s2">();</span>
+<a name="l108"><span class="ln">108  </span></a>        <span class="s2">}</span>
+<a name="l109"><span class="ln">109  </span></a>    <span class="s2">}</span>
+<a name="l110"><span class="ln">110  </span></a>
+<a name="l111"><span class="ln">111  </span></a>    <span class="s0">private void </span><span class="s1">enviarEmail</span><span class="s2">(</span><span class="s1">String destinatario</span><span class="s2">, </span><span class="s1">String assunto</span><span class="s2">, </span><span class="s1">String corpo</span><span class="s2">, </span><span class="s1">String caminhoArquivo</span><span class="s2">) {</span>
+<a name="l112"><span class="ln">112  </span></a>        <span class="s0">new </span><span class="s1">Thread</span><span class="s2">(</span><span class="s0">new </span><span class="s1">Runnable</span><span class="s2">() {</span>
+<a name="l113"><span class="ln">113  </span></a>            <span class="s1">@Override</span>
+<a name="l114"><span class="ln">114  </span></a>            <span class="s0">public void </span><span class="s1">run</span><span class="s2">() {</span>
+<a name="l115"><span class="ln">115  </span></a>                <span class="s0">try </span><span class="s2">{</span>
+<a name="l116"><span class="ln">116  </span></a>                    <span class="s4">// Configurações do e-mail</span>
+<a name="l117"><span class="ln">117  </span></a>                    <span class="s1">Properties props </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Properties</span><span class="s2">();</span>
+<a name="l118"><span class="ln">118  </span></a>                    <span class="s1">props</span><span class="s2">.</span><span class="s1">put</span><span class="s2">(</span><span class="s3">&quot;mail.smtp.host&quot;</span><span class="s2">, </span><span class="s3">&quot;smtp.gmail.com&quot;</span><span class="s2">); </span><span class="s4">// Use o servidor SMTP do seu provedor de e-mail</span>
+<a name="l119"><span class="ln">119  </span></a>                    <span class="s1">props</span><span class="s2">.</span><span class="s1">put</span><span class="s2">(</span><span class="s3">&quot;mail.smtp.socketFactory.port&quot;</span><span class="s2">, </span><span class="s3">&quot;465&quot;</span><span class="s2">);</span>
+<a name="l120"><span class="ln">120  </span></a>                    <span class="s1">props</span><span class="s2">.</span><span class="s1">put</span><span class="s2">(</span><span class="s3">&quot;mail.smtp.socketFactory.class&quot;</span><span class="s2">, </span><span class="s3">&quot;javax.net.ssl.SSLSocketFactory&quot;</span><span class="s2">);</span>
+<a name="l121"><span class="ln">121  </span></a>                    <span class="s1">props</span><span class="s2">.</span><span class="s1">put</span><span class="s2">(</span><span class="s3">&quot;mail.smtp.auth&quot;</span><span class="s2">, </span><span class="s3">&quot;true&quot;</span><span class="s2">);</span>
+<a name="l122"><span class="ln">122  </span></a>                    <span class="s1">props</span><span class="s2">.</span><span class="s1">put</span><span class="s2">(</span><span class="s3">&quot;mail.smtp.port&quot;</span><span class="s2">, </span><span class="s3">&quot;465&quot;</span><span class="s2">);</span>
+<a name="l123"><span class="ln">123  </span></a>
+<a name="l124"><span class="ln">124  </span></a>                    <span class="s1">Session session </span><span class="s2">= </span><span class="s1">Session</span><span class="s2">.</span><span class="s1">getDefaultInstance</span><span class="s2">(</span><span class="s1">props</span><span class="s2">,</span>
+<a name="l125"><span class="ln">125  </span></a>                            <span class="s0">new </span><span class="s1">javax</span><span class="s2">.</span><span class="s1">mail</span><span class="s2">.</span><span class="s1">Authenticator</span><span class="s2">() {</span>
+<a name="l126"><span class="ln">126  </span></a>                                <span class="s0">protected </span><span class="s1">PasswordAuthentication getPasswordAuthentication</span><span class="s2">() {</span>
+<a name="l127"><span class="ln">127  </span></a>                                    <span class="s0">return new </span><span class="s1">PasswordAuthentication</span><span class="s2">(</span><span class="s3">&quot;seu_email@gmail.com&quot;</span><span class="s2">, </span><span class="s3">&quot;sua_senha&quot;</span><span class="s2">); </span><span class="s4">// Substitua pelo seu e-mail e senha</span>
+<a name="l128"><span class="ln">128  </span></a>                                <span class="s2">}</span>
+<a name="l129"><span class="ln">129  </span></a>                            <span class="s2">});</span>
+<a name="l130"><span class="ln">130  </span></a>
+<a name="l131"><span class="ln">131  </span></a>                    <span class="s1">Message message </span><span class="s2">= </span><span class="s0">new </span><span class="s1">MimeMessage</span><span class="s2">(</span><span class="s1">session</span><span class="s2">);</span>
+<a name="l132"><span class="ln">132  </span></a>                    <span class="s1">message</span><span class="s2">.</span><span class="s1">setFrom</span><span class="s2">(</span><span class="s0">new </span><span class="s1">InternetAddress</span><span class="s2">(</span><span class="s3">&quot;seu_email@gmail.com&quot;</span><span class="s2">)); </span><span class="s4">// Substitua pelo seu e-mail</span>
+<a name="l133"><span class="ln">133  </span></a>                    <span class="s1">message</span><span class="s2">.</span><span class="s1">setRecipients</span><span class="s2">(</span><span class="s1">Message</span><span class="s2">.</span><span class="s1">RecipientType</span><span class="s2">.</span><span class="s1">TO</span><span class="s2">, </span><span class="s1">InternetAddress</span><span class="s2">.</span><span class="s1">parse</span><span class="s2">(</span><span class="s1">destinatario</span><span class="s2">));</span>
+<a name="l134"><span class="ln">134  </span></a>                    <span class="s1">message</span><span class="s2">.</span><span class="s1">setSubject</span><span class="s2">(</span><span class="s1">assunto</span><span class="s2">);</span>
+<a name="l135"><span class="ln">135  </span></a>
+<a name="l136"><span class="ln">136  </span></a>                    <span class="s4">// Cria a mensagem com o corpo e o anexo</span>
+<a name="l137"><span class="ln">137  </span></a>                    <span class="s1">BodyPart messageBodyPart </span><span class="s2">= </span><span class="s0">new </span><span class="s1">MimeBodyPart</span><span class="s2">();</span>
+<a name="l138"><span class="ln">138  </span></a>                    <span class="s1">messageBodyPart</span><span class="s2">.</span><span class="s1">setText</span><span class="s2">(</span><span class="s1">corpo</span><span class="s2">);</span>
+<a name="l139"><span class="ln">139  </span></a>
+<a name="l140"><span class="ln">140  </span></a>                    <span class="s1">Multipart multipart </span><span class="s2">= </span><span class="s0">new </span><span class="s1">MimeMultipart</span><span class="s2">();</span>
+<a name="l141"><span class="ln">141  </span></a>                    <span class="s1">multipart</span><span class="s2">.</span><span class="s1">addBodyPart</span><span class="s2">(</span><span class="s1">messageBodyPart</span><span class="s2">);</span>
+<a name="l142"><span class="ln">142  </span></a>
+<a name="l143"><span class="ln">143  </span></a>                    <span class="s1">messageBodyPart </span><span class="s2">= </span><span class="s0">new </span><span class="s1">MimeBodyPart</span><span class="s2">();</span>
+<a name="l144"><span class="ln">144  </span></a>                    <span class="s1">DataSource source </span><span class="s2">= </span><span class="s0">new </span><span class="s1">FileDataSource</span><span class="s2">(</span><span class="s1">caminhoArquivo</span><span class="s2">);</span>
+<a name="l145"><span class="ln">145  </span></a>                    <span class="s1">messageBodyPart</span><span class="s2">.</span><span class="s1">setDataHandler</span><span class="s2">(</span><span class="s0">new </span><span class="s1">DataHandler</span><span class="s2">(</span><span class="s1">source</span><span class="s2">));</span>
+<a name="l146"><span class="ln">146  </span></a>                    <span class="s1">messageBodyPart</span><span class="s2">.</span><span class="s1">setFileName</span><span class="s2">(</span><span class="s0">new </span><span class="s1">File</span><span class="s2">(</span><span class="s1">caminhoArquivo</span><span class="s2">).</span><span class="s1">getName</span><span class="s2">());</span>
+<a name="l147"><span class="ln">147  </span></a>                    <span class="s1">multipart</span><span class="s2">.</span><span class="s1">addBodyPart</span><span class="s2">(</span><span class="s1">messageBodyPart</span><span class="s2">);</span>
+<a name="l148"><span class="ln">148  </span></a>
+<a name="l149"><span class="ln">149  </span></a>                    <span class="s1">message</span><span class="s2">.</span><span class="s1">setContent</span><span class="s2">(</span><span class="s1">multipart</span><span class="s2">);</span>
+<a name="l150"><span class="ln">150  </span></a>
+<a name="l151"><span class="ln">151  </span></a>                    <span class="s4">// Envia o e-mail</span>
+<a name="l152"><span class="ln">152  </span></a>                    <span class="s1">Transport</span><span class="s2">.</span><span class="s1">send</span><span class="s2">(</span><span class="s1">message</span><span class="s2">);</span>
+<a name="l153"><span class="ln">153  </span></a>
+<a name="l154"><span class="ln">154  </span></a>                    <span class="s1">runOnUiThread</span><span class="s2">(</span><span class="s0">new </span><span class="s1">Runnable</span><span class="s2">() {</span>
+<a name="l155"><span class="ln">155  </span></a>                        <span class="s1">@Override</span>
+<a name="l156"><span class="ln">156  </span></a>                        <span class="s0">public void </span><span class="s1">run</span><span class="s2">() {</span>
+<a name="l157"><span class="ln">157  </span></a>                            <span class="s1">Toast</span><span class="s2">.</span><span class="s1">makeText</span><span class="s2">(</span><span class="s1">RelatoriosActivity</span><span class="s2">.</span><span class="s0">this</span><span class="s2">, </span><span class="s3">&quot;E-mail enviado com sucesso&quot;</span><span class="s2">, </span><span class="s1">Toast</span><span class="s2">.</span><span class="s1">LENGTH_SHORT</span><span class="s2">).</span><span class="s1">show</span><span class="s2">();</span>
+<a name="l158"><span class="ln">158  </span></a>                        <span class="s2">}</span>
+<a name="l159"><span class="ln">159  </span></a>                    <span class="s2">});</span>
+<a name="l160"><span class="ln">160  </span></a>                <span class="s2">} </span><span class="s0">catch </span><span class="s2">(</span><span class="s1">MessagingException e</span><span class="s2">) {</span>
+<a name="l161"><span class="ln">161  </span></a>                    <span class="s1">e</span><span class="s2">.</span><span class="s1">printStackTrace</span><span class="s2">();</span>
+<a name="l162"><span class="ln">162  </span></a>                    <span class="s1">runOnUiThread</span><span class="s2">(</span><span class="s0">new </span><span class="s1">Runnable</span><span class="s2">() {</span>
+<a name="l163"><span class="ln">163  </span></a>                        <span class="s1">@Override</span>
+<a name="l164"><span class="ln">164  </span></a>                        <span class="s0">public void </span><span class="s1">run</span><span class="s2">() {</span>
+<a name="l165"><span class="ln">165  </span></a>                            <span class="s1">Toast</span><span class="s2">.</span><span class="s1">makeText</span><span class="s2">(</span><span class="s1">RelatoriosActivity</span><span class="s2">.</span><span class="s0">this</span><span class="s2">, </span><span class="s3">&quot;Erro ao enviar e-mail&quot;</span><span class="s2">, </span><span class="s1">Toast</span><span class="s2">.</span><span class="s1">LENGTH_SHORT</span><span class="s2">).</span><span class="s1">show</span><span class="s2">();</span>
+<a name="l166"><span class="ln">166  </span></a>                        <span class="s2">}</span>
+<a name="l167"><span class="ln">167  </span></a>                    <span class="s2">});</span>
+<a name="l168"><span class="ln">168  </span></a>                <span class="s2">}</span>
+<a name="l169"><span class="ln">169  </span></a>            <span class="s2">}</span>
+<a name="l170"><span class="ln">170  </span></a>        <span class="s2">}).</span><span class="s1">start</span><span class="s2">();</span>
+<a name="l171"><span class="ln">171  </span></a>    <span class="s2">}</span>
+<a name="l172"><span class="ln">172  </span></a><span class="s2">}</span></pre>
+</body>
+</html>

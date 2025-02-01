@@ -1,0 +1,56 @@
+<html>
+<head>
+<title>AndroidManifest.xml</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #d5b778;}
+.s1 { color: #bcbec4;}
+.s2 { color: #6aab73;}
+.s3 { color: #bcbec4;}
+.ln { color: #4b5059; font-weight: normal; font-style: normal; }
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+AndroidManifest.xml</font>
+</center></td></tr></table>
+<pre><a name="l1"><span class="ln">1    </span></a><span class="s0">&lt;?</span><span class="s1">xml version</span><span class="s2">=&quot;1.0&quot; </span><span class="s1">encoding</span><span class="s2">=&quot;utf-8&quot;</span><span class="s0">?&gt;</span>
+<a name="l2"><span class="ln">2    </span></a><span class="s0">&lt;manifest </span><span class="s1">xmlns:android</span><span class="s2">=&quot;http://schemas.android.com/apk/res/android&quot;</span>
+<a name="l3"><span class="ln">3    </span></a>    <span class="s1">package</span><span class="s2">=&quot;com.xtremeprojetos.bdt&quot;</span><span class="s0">&gt;</span>
+<a name="l4"><span class="ln">4    </span></a>
+<a name="l5"><span class="ln">5    </span></a>    <span class="s0">&lt;uses-permission </span><span class="s1">android:name</span><span class="s2">=&quot;android.permission.INTERNET&quot; </span><span class="s0">/&gt;</span>
+<a name="l6"><span class="ln">6    </span></a>    <span class="s0">&lt;uses-permission </span><span class="s1">android:name</span><span class="s2">=&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot; </span><span class="s0">/&gt;</span>
+<a name="l7"><span class="ln">7    </span></a>
+<a name="l8"><span class="ln">8    </span></a>    <span class="s0">&lt;application</span>
+<a name="l9"><span class="ln">9    </span></a>        <span class="s1">android:allowBackup</span><span class="s2">=&quot;true&quot;</span>
+<a name="l10"><span class="ln">10   </span></a>        <span class="s1">android:icon</span><span class="s2">=&quot;@mipmap/ic_launcher&quot;</span>
+<a name="l11"><span class="ln">11   </span></a>        <span class="s1">android:label</span><span class="s2">=&quot;@string/app_name&quot;</span>
+<a name="l12"><span class="ln">12   </span></a>        <span class="s1">android:roundIcon</span><span class="s2">=&quot;@mipmap/ic_launcher_round&quot;</span>
+<a name="l13"><span class="ln">13   </span></a>        <span class="s1">android:supportsRtl</span><span class="s2">=&quot;true&quot;</span>
+<a name="l14"><span class="ln">14   </span></a>        <span class="s1">android:theme</span><span class="s2">=&quot;@style/Theme.BDT&quot;</span><span class="s0">&gt;</span>
+<a name="l15"><span class="ln">15   </span></a>        <span class="s0">&lt;activity</span>
+<a name="l16"><span class="ln">16   </span></a>            <span class="s1">android:name</span><span class="s2">=&quot;.RelatoriosActivity&quot;</span>
+<a name="l17"><span class="ln">17   </span></a>            <span class="s1">android:exported</span><span class="s2">=&quot;false&quot; </span><span class="s0">/&gt;</span>
+<a name="l18"><span class="ln">18   </span></a>        <span class="s0">&lt;activity</span>
+<a name="l19"><span class="ln">19   </span></a>            <span class="s1">android:name</span><span class="s2">=&quot;.PreenchimentoBDTActivity&quot;</span>
+<a name="l20"><span class="ln">20   </span></a>            <span class="s1">android:exported</span><span class="s2">=&quot;false&quot; </span><span class="s0">/&gt;</span>
+<a name="l21"><span class="ln">21   </span></a>        <span class="s0">&lt;activity</span>
+<a name="l22"><span class="ln">22   </span></a>            <span class="s1">android:name</span><span class="s2">=&quot;.CadastroVeiculoActivity&quot;</span>
+<a name="l23"><span class="ln">23   </span></a>            <span class="s1">android:exported</span><span class="s2">=&quot;false&quot; </span><span class="s0">/&gt;</span>
+<a name="l24"><span class="ln">24   </span></a>        <span class="s0">&lt;activity</span>
+<a name="l25"><span class="ln">25   </span></a>            <span class="s1">android:name</span><span class="s2">=&quot;.CadastroMotoristaActivity&quot;</span>
+<a name="l26"><span class="ln">26   </span></a>            <span class="s1">android:exported</span><span class="s2">=&quot;false&quot; </span><span class="s0">/&gt;</span>
+<a name="l27"><span class="ln">27   </span></a>        <span class="s0">&lt;activity</span>
+<a name="l28"><span class="ln">28   </span></a>            <span class="s1">android:name</span><span class="s2">=&quot;.MainActivity&quot;</span>
+<a name="l29"><span class="ln">29   </span></a>            <span class="s1">android:exported</span><span class="s2">=&quot;true&quot;</span><span class="s0">&gt;</span>
+<a name="l30"><span class="ln">30   </span></a>            <span class="s0">&lt;intent-filter&gt;</span>
+<a name="l31"><span class="ln">31   </span></a>                <span class="s0">&lt;action </span><span class="s1">android:name</span><span class="s2">=&quot;android.intent.action.MAIN&quot; </span><span class="s0">/&gt;</span>
+<a name="l32"><span class="ln">32   </span></a>                <span class="s0">&lt;category </span><span class="s1">android:name</span><span class="s2">=&quot;android.intent.category.LAUNCHER&quot; </span><span class="s0">/&gt;</span>
+<a name="l33"><span class="ln">33   </span></a>            <span class="s0">&lt;/intent-filter&gt;</span>
+<a name="l34"><span class="ln">34   </span></a>        <span class="s0">&lt;/activity&gt;</span>
+<a name="l35"><span class="ln">35   </span></a>    <span class="s0">&lt;/application&gt;</span>
+<a name="l36"><span class="ln">36   </span></a><span class="s0">&lt;/manifest&gt;</span></pre>
+</body>
+</html>

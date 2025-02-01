@@ -1,0 +1,69 @@
+<html>
+<head>
+<title>BancoDeDados.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #6aab73;}
+.s4 { color: #2aacb8;}
+.s5 { color: #7a7e85;}
+.ln { color: #4b5059; font-weight: normal; font-style: normal; }
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+BancoDeDados.java</font>
+</center></td></tr></table>
+<pre><a name="l1"><span class="ln">1    </span></a><span class="s0">package </span><span class="s1">com</span><span class="s2">.</span><span class="s1">xtremeprojetos</span><span class="s2">.</span><span class="s1">bdt</span><span class="s2">;</span>
+<a name="l2"><span class="ln">2    </span></a>
+<a name="l3"><span class="ln">3    </span></a><span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">content</span><span class="s2">.</span><span class="s1">Context</span><span class="s2">;</span>
+<a name="l4"><span class="ln">4    </span></a><span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">database</span><span class="s2">.</span><span class="s1">sqlite</span><span class="s2">.</span><span class="s1">SQLiteDatabase</span><span class="s2">;</span>
+<a name="l5"><span class="ln">5    </span></a><span class="s0">import </span><span class="s1">android</span><span class="s2">.</span><span class="s1">database</span><span class="s2">.</span><span class="s1">sqlite</span><span class="s2">.</span><span class="s1">SQLiteOpenHelper</span><span class="s2">;</span>
+<a name="l6"><span class="ln">6    </span></a>
+<a name="l7"><span class="ln">7    </span></a><span class="s0">public class </span><span class="s1">BancoDeDados </span><span class="s0">extends </span><span class="s1">SQLiteOpenHelper </span><span class="s2">{</span>
+<a name="l8"><span class="ln">8    </span></a>
+<a name="l9"><span class="ln">9    </span></a>    <span class="s0">public static final </span><span class="s1">String NOME_BANCO </span><span class="s2">= </span><span class="s3">&quot;bdt.db&quot;</span><span class="s2">;</span>
+<a name="l10"><span class="ln">10   </span></a>    <span class="s0">public static final int </span><span class="s1">VERSAO_BANCO </span><span class="s2">= </span><span class="s4">1</span><span class="s2">;</span>
+<a name="l11"><span class="ln">11   </span></a>
+<a name="l12"><span class="ln">12   </span></a>    <span class="s0">public </span><span class="s1">BancoDeDados</span><span class="s2">(</span><span class="s1">Context context</span><span class="s2">) {</span>
+<a name="l13"><span class="ln">13   </span></a>        <span class="s0">super</span><span class="s2">(</span><span class="s1">context</span><span class="s2">, </span><span class="s1">NOME_BANCO</span><span class="s2">, </span><span class="s0">null</span><span class="s2">, </span><span class="s1">VERSAO_BANCO</span><span class="s2">);</span>
+<a name="l14"><span class="ln">14   </span></a>    <span class="s2">}</span>
+<a name="l15"><span class="ln">15   </span></a>
+<a name="l16"><span class="ln">16   </span></a>    <span class="s1">@Override</span>
+<a name="l17"><span class="ln">17   </span></a>    <span class="s0">public void </span><span class="s1">onCreate</span><span class="s2">(</span><span class="s1">SQLiteDatabase db</span><span class="s2">) {</span>
+<a name="l18"><span class="ln">18   </span></a>        <span class="s5">// Criar tabelas</span>
+<a name="l19"><span class="ln">19   </span></a>        <span class="s1">db</span><span class="s2">.</span><span class="s1">execSQL</span><span class="s2">(</span><span class="s3">&quot;CREATE TABLE IF NOT EXISTS motoristas (&quot; </span><span class="s2">+</span>
+<a name="l20"><span class="ln">20   </span></a>                <span class="s3">&quot;id INTEGER PRIMARY KEY AUTOINCREMENT,&quot; </span><span class="s2">+</span>
+<a name="l21"><span class="ln">21   </span></a>                <span class="s3">&quot;nome TEXT,&quot; </span><span class="s2">+</span>
+<a name="l22"><span class="ln">22   </span></a>                <span class="s3">&quot;matricula TEXT)&quot;</span><span class="s2">);</span>
+<a name="l23"><span class="ln">23   </span></a>
+<a name="l24"><span class="ln">24   </span></a>        <span class="s1">db</span><span class="s2">.</span><span class="s1">execSQL</span><span class="s2">(</span><span class="s3">&quot;CREATE TABLE IF NOT EXISTS veiculos (&quot; </span><span class="s2">+</span>
+<a name="l25"><span class="ln">25   </span></a>                <span class="s3">&quot;id INTEGER PRIMARY KEY AUTOINCREMENT,&quot; </span><span class="s2">+</span>
+<a name="l26"><span class="ln">26   </span></a>                <span class="s3">&quot;modelo TEXT,&quot; </span><span class="s2">+</span>
+<a name="l27"><span class="ln">27   </span></a>                <span class="s3">&quot;placa TEXT)&quot;</span><span class="s2">);</span>
+<a name="l28"><span class="ln">28   </span></a>
+<a name="l29"><span class="ln">29   </span></a>        <span class="s1">db</span><span class="s2">.</span><span class="s1">execSQL</span><span class="s2">(</span><span class="s3">&quot;CREATE TABLE IF NOT EXISTS bdts (&quot; </span><span class="s2">+</span>
+<a name="l30"><span class="ln">30   </span></a>                <span class="s3">&quot;id INTEGER PRIMARY KEY AUTOINCREMENT,&quot; </span><span class="s2">+</span>
+<a name="l31"><span class="ln">31   </span></a>                <span class="s3">&quot;data TEXT,&quot; </span><span class="s2">+</span>
+<a name="l32"><span class="ln">32   </span></a>                <span class="s3">&quot;percurso_destino TEXT,&quot; </span><span class="s2">+</span>
+<a name="l33"><span class="ln">33   </span></a>                <span class="s3">&quot;hora_saida TEXT,&quot; </span><span class="s2">+</span>
+<a name="l34"><span class="ln">34   </span></a>                <span class="s3">&quot;km_saida REAL,&quot; </span><span class="s2">+</span>
+<a name="l35"><span class="ln">35   </span></a>                <span class="s3">&quot;hora_chegada TEXT,&quot; </span><span class="s2">+</span>
+<a name="l36"><span class="ln">36   </span></a>                <span class="s3">&quot;km_chegada REAL,&quot; </span><span class="s2">+</span>
+<a name="l37"><span class="ln">37   </span></a>                <span class="s3">&quot;id_motorista INTEGER,&quot; </span><span class="s2">+</span>
+<a name="l38"><span class="ln">38   </span></a>                <span class="s3">&quot;id_veiculo INTEGER,&quot; </span><span class="s2">+</span>
+<a name="l39"><span class="ln">39   </span></a>                <span class="s3">&quot;FOREIGN KEY (id_motorista) REFERENCES motoristas(id),&quot; </span><span class="s2">+</span>
+<a name="l40"><span class="ln">40   </span></a>                <span class="s3">&quot;FOREIGN KEY (id_veiculo) REFERENCES veiculos(id))&quot;</span><span class="s2">);</span>
+<a name="l41"><span class="ln">41   </span></a>    <span class="s2">}</span>
+<a name="l42"><span class="ln">42   </span></a>
+<a name="l43"><span class="ln">43   </span></a>    <span class="s1">@Override</span>
+<a name="l44"><span class="ln">44   </span></a>    <span class="s0">public void </span><span class="s1">onUpgrade</span><span class="s2">(</span><span class="s1">SQLiteDatabase db</span><span class="s2">, </span><span class="s0">int </span><span class="s1">oldVersion</span><span class="s2">, </span><span class="s0">int </span><span class="s1">newVersion</span><span class="s2">) {</span>
+<a name="l45"><span class="ln">45   </span></a>        <span class="s5">// Atualizar tabelas (se necessário)</span>
+<a name="l46"><span class="ln">46   </span></a>    <span class="s2">}</span>
+<a name="l47"><span class="ln">47   </span></a><span class="s2">}</span></pre>
+</body>
+</html>
