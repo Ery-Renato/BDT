@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class BancoDeDados extends SQLiteOpenHelper {
 
     public static final String NOME_BANCO = "bdt.db";
-    public static final int VERSAO_BANCO = 1;
+    public static final int VERSAO_BANCO = 2; // Versão aumentada para permitir atualizações
 
     public BancoDeDados(Context context) {
         super(context, NOME_BANCO, null, VERSAO_BANCO);
@@ -15,7 +15,7 @@ public class BancoDeDados extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // Criar tabelas
+        // Criação das tabelas
         db.execSQL("CREATE TABLE IF NOT EXISTS motoristas (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "nome TEXT," +
@@ -42,6 +42,12 @@ public class BancoDeDados extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Atualizar tabelas (se necessário)
+        // Remover as tabelas antigas
+        db.execSQL("DROP TABLE IF EXISTS bdts");
+        db.execSQL("DROP TABLE IF EXISTS motoristas");
+        db.execSQL("DROP TABLE IF EXISTS veiculos");
+
+        // Recriar as tabelas com a nova estrutura
+        onCreate(db);
     }
 }
