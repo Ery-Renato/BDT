@@ -93,10 +93,24 @@ public class PreenchimentoBDTActivity extends AppCompatActivity {
                     return;
                 }
 
-                double kmSaida = Double.parseDouble(kmSaidaStr);
-                double kmChegada = Double.parseDouble(kmChegadaStr);
+                // Verificação de Km
+                double kmSaida = 0;
+                double kmChegada = 0;
+                try {
+                    kmSaida = Double.parseDouble(kmSaidaStr);
+                    kmChegada = Double.parseDouble(kmChegadaStr);
+                } catch (NumberFormatException e) {
+                    Toast.makeText(PreenchimentoBDTActivity.this, "Valores de quilometragem inválidos", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 int idMotorista = spMotorista.getSelectedItemPosition() + 1; // Ajustar conforme a lógica do seu Spinner
                 int idVeiculo = spVeiculo.getSelectedItemPosition() + 1; // Ajustar conforme a lógica do seu Spinner
+
+                if (idMotorista == 0 || idVeiculo == 0) {
+                    Toast.makeText(PreenchimentoBDTActivity.this, "Selecione motorista e veículo", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 SQLiteDatabase db = bancoDeDados.getWritableDatabase();
                 ContentValues values = new ContentValues();

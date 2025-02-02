@@ -1,29 +1,38 @@
 package com.xtremeprojetos.bdt.data;
-
 import com.xtremeprojetos.bdt.data.model.LoggedInUser;
-
+import com.xtremeprojetos.bdt.Motorista;
+import com.xtremeprojetos.bdt.BancoDeDados;
 import java.io.IOException;
 
-/**
- * Class that handles authentication w/ login credentials and retrieves user information.
- */
 public class LoginDataSource {
 
-    public Result<LoggedInUser> login(String username, String password) {
+    private BancoDeDados bancoDeDados;
+
+    public LoginDataSource(BancoDeDados bancoDeDados) {
+        this.bancoDeDados = bancoDeDados;
+    }
+
+    public LoginDataSource() {
+
+    }
+
+    public Result<LoggedInUser> login(String matricula, String senha) {
 
         try {
-            // TODO: handle loggedInUser authentication
-            LoggedInUser fakeUser =
-                    new LoggedInUser(
-                            java.util.UUID.randomUUID().toString(),
-                            "Jane Doe");
-            return new Result.Success<>(fakeUser);
+            Motorista motorista = bancoDeDados.consultarMotorista(matricula, senha);
+            if (motorista != null) {
+                // Cria um usuário logado com o id do motorista
+                LoggedInUser loggedInUser = new LoggedInUser(motorista.getId(), motorista.getNome());
+                return new Result.Success<>(loggedInUser);
+            } else {
+                return new Result.Error(new IOException("Login ou senha inválidos"));
+            }
         } catch (Exception e) {
-            return new Result.Error(new IOException("Error logging in", e));
+            return new Result.Error(new IOException("Erro ao fazer login", e));
         }
     }
 
     public void logout() {
-        // TODO: revoke authentication
+        // Revogar a autenticação
     }
 }

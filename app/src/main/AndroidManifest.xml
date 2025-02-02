@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.xtremeprojetos.bdt">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- Permissões necessárias -->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:allowBackup="true"
@@ -12,25 +12,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.BDT">
-        <activity
-            android:name=".RelatoriosActivity"
-            android:exported="false" />
-        <activity
-            android:name=".PreenchimentoBDTActivity"
-            android:exported="false" />
-        <activity
-            android:name=".CadastroVeiculoActivity"
-            android:exported="false" />
-        <activity
-            android:name=".CadastroMotoristaActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
+
+        <!-- LoginActivity como a Activity inicial -->
+        <activity android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- CadastroMotoristaActivity -->
+        <activity android:name=".CadastroMotoristaActivity" android:exported="true"/>
+
+        <!-- TelaPrincipalActivity -->
+        <activity android:name=".TelaPrincipalActivity" android:exported="true"/>
+
     </application>
+
 </manifest>

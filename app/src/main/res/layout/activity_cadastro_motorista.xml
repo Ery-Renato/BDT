@@ -15,15 +15,15 @@
         android:layout_marginBottom="16dp"/>
 
     <EditText
-        android:id="@+id/etNomeMotorista"
+        android:id="@+id/etNomeCadastro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nome do Motorista"
+        android:hint="Nome"
         android:inputType="text"
         android:layout_marginBottom="8dp"/>
 
     <EditText
-        android:id="@+id/etMatriculaMotorista"
+        android:id="@+id/etMatriculaCadastro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Matrícula"
@@ -31,10 +31,10 @@
         android:layout_marginBottom="16dp"/>
 
     <Button
-        android:id="@+id/btnSalvarMotorista"
+        android:id="@+id/btnSalvarCadastro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Salvar"
+        android:text="Salvar Cadastro"
         android:backgroundTint="@color/design_default_color_primary"/>
 
 </LinearLayout>

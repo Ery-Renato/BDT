@@ -2,24 +2,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="16dp">
 
+    <!-- Campo de matrícula -->
     <EditText
-        android:id="@+id/etModeloVeiculo"
+        android:id="@+id/etMatriculaLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Modelo do Veículo" />
+        android:hint="Matrícula"
+        android:inputType="text" />
 
+    <!-- Campo de senha -->
     <EditText
-        android:id="@+id/etPlacaVeiculo"
+        android:id="@+id/etSenhaLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Placa" />
+        android:hint="Senha"
+        android:inputType="textPassword" />
 
+    <!-- Botão de login -->
     <Button
-        android:id="@+id/btnSalvarVeiculo"
+        android:id="@+id/btnLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Salvar" />
+        android:text="Entrar" />
 
 </LinearLayout>

@@ -6,48 +6,40 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class BancoDeDados extends SQLiteOpenHelper {
 
-    public static final String NOME_BANCO = "bdt.db";
-    public static final int VERSAO_BANCO = 2; // Versão aumentada para permitir atualizações
+    // Nome do banco de dados e versão
+    private static final String DATABASE_NAME = "bdt.db";
+    private static final int DATABASE_VERSION = 1;
 
+    // Nome da tabela e colunas
+    private static final String TABLE_MOTORISTAS = "motoristas";
+    private static final String COLUMN_ID = "id";
+    private static final String COLUMN_NOME = "nome";
+    private static final String COLUMN_MATRICULA = "matricula";
+    private static final String COLUMN_SENHA = "senha";
+
+    // Comando SQL para criar a tabela de motoristas
+    private static final String CREATE_TABLE_MOTORISTAS =
+            "CREATE TABLE " + TABLE_MOTORISTAS + " (" +
+                    COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    COLUMN_NOME + " TEXT NOT NULL, " +
+                    COLUMN_MATRICULA + " TEXT NOT NULL, " +
+                    COLUMN_SENHA + " TEXT NOT NULL);";
+
+    // Construtor
     public BancoDeDados(Context context) {
-        super(context, NOME_BANCO, null, VERSAO_BANCO);
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
+    // Método obrigatório: cria o banco de dados
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // Criação das tabelas
-        db.execSQL("CREATE TABLE IF NOT EXISTS motoristas (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "nome TEXT," +
-                "matricula TEXT)");
-
-        db.execSQL("CREATE TABLE IF NOT EXISTS veiculos (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "modelo TEXT," +
-                "placa TEXT)");
-
-        db.execSQL("CREATE TABLE IF NOT EXISTS bdts (" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "data TEXT," +
-                "percurso_destino TEXT," +
-                "hora_saida TEXT," +
-                "km_saida REAL," +
-                "hora_chegada TEXT," +
-                "km_chegada REAL," +
-                "id_motorista INTEGER," +
-                "id_veiculo INTEGER," +
-                "FOREIGN KEY (id_motorista) REFERENCES motoristas(id)," +
-                "FOREIGN KEY (id_veiculo) REFERENCES veiculos(id))");
+        db.execSQL(CREATE_TABLE_MOTORISTAS);
     }
 
+    // Método obrigatório: atualiza o banco de dados quando a versão muda
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Remover as tabelas antigas
-        db.execSQL("DROP TABLE IF EXISTS bdts");
-        db.execSQL("DROP TABLE IF EXISTS motoristas");
-        db.execSQL("DROP TABLE IF EXISTS veiculos");
-
-        // Recriar as tabelas com a nova estrutura
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_MOTORISTAS);
         onCreate(db);
     }
 }

@@ -1,18 +1,17 @@
 package com.xtremeprojetos.bdt.data.model;
 
-/**
- * Data class that captures user information for logged in users retrieved from LoginRepository
- */
 public class LoggedInUser {
 
     private String userId;
     private String displayName;
 
+    // Construtor
     public LoggedInUser(String userId, String displayName) {
         this.userId = userId;
         this.displayName = displayName;
     }
 
+    // Métodos de acesso (Getters)
     public String getUserId() {
         return userId;
     }
