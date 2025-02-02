@@ -10,12 +10,14 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.itextpdf.text.Document;
-import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Paragraph;
 
 import java.io.File;
 import java.io.FileOutputStream;
+
 import java.util.Properties;
 
 import javax.activation.DataHandler;
@@ -51,65 +53,62 @@ public class RelatoriosActivity extends AppCompatActivity {
 
         bancoDeDados = new BancoDeDados(this);
 
-        btnGerarRelatorio.setOnClickListener(v -> {
-            String mes = etMesRelatorio.getText().toString().trim();
-            if (!mes.isEmpty()) {
+        btnGerarRelatorio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String mes = etMesRelatorio.getText().toString();
                 gerarRelatorioPDF(mes);
-            } else {
-                Toast.makeText(this, "Digite o mês para gerar o relatório", Toast.LENGTH_SHORT).show();
             }
         });
 
-        btnEnviarRelatorio.setOnClickListener(v -> {
-            String mes = etMesRelatorio.getText().toString().trim();
-            if (!mes.isEmpty()) {
-                String destinatario = "email_do_chefe@exemplo.com"; // Substitua pelo e-mail correto
-                String assunto = "Relatório Mensal de Tráfego - " + mes;
+        btnEnviarRelatorio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String destinatario = "email_do_chefe@exemplo.com"; // Substitua pelo e-mail do seu chefe
+                String assunto = "Relatório Mensal de Tráfego - " + etMesRelatorio.getText().toString();
                 String corpo = "Segue em anexo o relatório mensal de tráfego.";
-                String caminhoArquivo = new File(getExternalFilesDir(null), "relatorio_" + mes + ".pdf").getAbsolutePath();
+                String caminhoArquivo = new File(getExternalFilesDir(null), "relatorio_" + etMesRelatorio.getText().toString() + ".pdf").getAbsolutePath();
                 enviarEmail(destinatario, assunto, corpo, caminhoArquivo);
-            } else {
-                Toast.makeText(this, "Digite o mês para enviar o relatório", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void gerarRelatorioPDF(String mes) {
         try {
-            Document document = new Document();
+            // Criando o arquivo PDF
             String nomeArquivo = "relatorio_" + mes + ".pdf";
             File file = new File(getExternalFilesDir(null), nomeArquivo);
-            PdfWriter.getInstance(document, new FileOutputStream(file));
-            document.open();
 
-            // Adiciona o título do relatório
-            document.add(new Paragraph("Relatório Mensal de Tráfego - " + mes + "\n\n"));
+            // Criando o documento PDF
+            PdfWriter writer = new PdfWriter(new FileOutputStream(file));
+            PdfDocument pdfDocument = new PdfDocument(writer);
+            Document document = new Document(pdfDocument);
 
-            // Obtém os dados do banco de dados
+            // Adicionando título ao relatório
+            document.add(new Paragraph("Relatório Mensal de Tráfego - " + mes));
+
+            // Obtendo dados do banco de dados
             SQLiteDatabase db = bancoDeDados.getReadableDatabase();
-            Cursor cursor = db.rawQuery("SELECT * FROM motoristas WHERE strftime('%m', data) = ?", new String[]{mes});
+            Cursor cursor = db.query("bdts", null, "strftime('%m/%Y', data) = ?", new String[]{mes}, null, null, null);
 
-            if (cursor != null && cursor.moveToFirst()) {
+            if (cursor.moveToFirst()) {
                 do {
-                    int colunaData = cursor.getColumnIndex("data");
-                    int colunaDestino = cursor.getColumnIndex("percurso_destino");
-
-                    if (colunaData != -1 && colunaDestino != -1) {
-                        document.add(new Paragraph("Data: " + cursor.getString(colunaData)));
-                        document.add(new Paragraph("Percurso/Destino: " + cursor.getString(colunaDestino)));
-                        document.add(new Paragraph("-----------------------------------"));
-                    }
+                    // Adicionando dados ao relatório
+                    document.add(new Paragraph("Data: " + cursor.getString(cursor.getColumnIndexOrThrow("data"))));
+                    document.add(new Paragraph("Percurso/Destino: " + cursor.getString(cursor.getColumnIndexOrThrow("percurso_destino"))));
+                    document.add(new Paragraph("-----------------------------------"));
                 } while (cursor.moveToNext());
-
-                cursor.close();
-            } else {
-                document.add(new Paragraph("Nenhum registro encontrado para este mês."));
             }
 
+            // Fechando cursor e banco de dados
+            cursor.close();
             db.close();
+
+            // Fechando o documento
             document.close();
 
-            Toast.makeText(this, "Relatório gerado: " + file.getAbsolutePath(), Toast.LENGTH_LONG).show();
+            // Exibir mensagem de sucesso
+            Toast.makeText(this, "Relatório gerado com sucesso: " + file.getAbsolutePath(), Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(this, "Erro ao gerar relatório", Toast.LENGTH_SHORT).show();
@@ -117,52 +116,64 @@ public class RelatoriosActivity extends AppCompatActivity {
     }
 
     private void enviarEmail(String destinatario, String assunto, String corpo, String caminhoArquivo) {
-        new Thread(() -> {
-            try {
-                Properties props = new Properties();
-                props.put("mail.smtp.host", "smtp.gmail.com");
-                props.put("mail.smtp.socketFactory.port", "465");
-                props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-                props.put("mail.smtp.auth", "true");
-                props.put("mail.smtp.port", "465");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    // Configurações do e-mail
+                    Properties props = new Properties();
+                    props.put("mail.smtp.host", "smtp.gmail.com"); // Servidor SMTP
+                    props.put("mail.smtp.socketFactory.port", "465");
+                    props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+                    props.put("mail.smtp.auth", "true");
+                    props.put("mail.smtp.port", "465");
 
-                final String emailUsuario = "seu_email@gmail.com"; // Substitua pelo seu e-mail
-                final String senhaUsuario = "sua_senha"; // **Use um token de app em vez de senha**
+                    Session session = Session.getDefaultInstance(props,
+                            new javax.mail.Authenticator() {
+                                protected PasswordAuthentication getPasswordAuthentication() {
+                                    return new PasswordAuthentication("seu_email@gmail.com", "sua_senha"); // Substitua pelo seu e-mail e senha
+                                }
+                            });
 
-                Session session = Session.getInstance(props, new javax.mail.Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(emailUsuario, senhaUsuario);
-                    }
-                });
+                    Message message = new MimeMessage(session);
+                    message.setFrom(new InternetAddress("seu_email@gmail.com")); // Seu e-mail
+                    message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destinatario));
+                    message.setSubject(assunto);
 
-                Message message = new MimeMessage(session);
-                message.setFrom(new InternetAddress(emailUsuario));
-                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(destinatario));
-                message.setSubject(assunto);
+                    // Criando corpo da mensagem
+                    BodyPart messageBodyPart = new MimeBodyPart();
+                    messageBodyPart.setText(corpo);
 
-                // Corpo do e-mail
-                BodyPart messageBodyPart = new MimeBodyPart();
-                messageBodyPart.setText(corpo);
+                    Multipart multipart = new MimeMultipart();
+                    multipart.addBodyPart(messageBodyPart);
 
-                Multipart multipart = new MimeMultipart();
-                multipart.addBodyPart(messageBodyPart);
+                    // Adicionando o anexo
+                    messageBodyPart = new MimeBodyPart();
+                    DataSource source = new FileDataSource(caminhoArquivo);
+                    messageBodyPart.setDataHandler(new DataHandler(source));
+                    messageBodyPart.setFileName(new File(caminhoArquivo).getName());
+                    multipart.addBodyPart(messageBodyPart);
 
-                // Adiciona o anexo
-                messageBodyPart = new MimeBodyPart();
-                DataSource source = new FileDataSource(caminhoArquivo);
-                messageBodyPart.setDataHandler(new DataHandler(source));
-                messageBodyPart.setFileName(new File(caminhoArquivo).getName());
-                multipart.addBodyPart(messageBodyPart);
+                    message.setContent(multipart);
 
-                message.setContent(multipart);
+                    // Enviando o e-mail
+                    Transport.send(message);
 
-                // Envia o e-mail
-                Transport.send(message);
-
-                runOnUiThread(() -> Toast.makeText(RelatoriosActivity.this, "E-mail enviado com sucesso", Toast.LENGTH_SHORT).show());
-            } catch (MessagingException e) {
-                e.printStackTrace();
-                runOnUiThread(() -> Toast.makeText(RelatoriosActivity.this, "Erro ao enviar e-mail", Toast.LENGTH_SHORT).show());
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(RelatoriosActivity.this, "E-mail enviado com sucesso", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } catch (MessagingException e) {
+                    e.printStackTrace();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(RelatoriosActivity.this, "Erro ao enviar e-mail", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
             }
         }).start();
     }

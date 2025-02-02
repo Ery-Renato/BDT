@@ -25,11 +25,14 @@ android {
 }
 
 dependencies {
+    implementation 'com.sun.mail:android-mail:1.6.7'
+    implementation 'com.sun.mail:android-activation:1.6.7'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.google.android.material:material:1.10.0'
     implementation 'androidx.lifecycle:lifecycle-runtime:2.6.2'
     implementation 'androidx.lifecycle:lifecycle-common-java8:2.6.2'
+
     implementation 'com.itextpdf:itext7-core:7.2.5'
     // Banco de Dados SQLite
     implementation 'androidx.sqlite:sqlite:2.3.1'

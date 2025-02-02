@@ -49,8 +49,8 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         // Verificando se a matrícula e a senha são válidas
-        if (bancoDeDados.consultarMotorista(matricula, senha)) {
-
+        Motorista motorista = bancoDeDados.consultarMotorista(matricula, senha);
+        if (motorista != null) {
             // Login bem-sucedido
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
