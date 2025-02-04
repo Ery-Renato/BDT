@@ -1,30 +1,14 @@
-// Arquivo de configuração global para todos os módulos do projeto
-
 buildscript {
     repositories {
         google()
         mavenCentral()
-        maven { url "https://jitpack.io" } // Adicionando o JitPack para garantir dependências externas
     }
-
     dependencies {
-        classpath('com.android.tools.build:gradle:8.8.0') // Versão mais recente estável
+        classpath 'com.android.tools.build:gradle:8.8.0'
+        // Certifique-se de usar uma versão compatível
     }
 }
 
-plugins {
-    id("com.android.application") version '8.8.0' apply false
-}
-
-// Removendo Kotlin, pois o projeto está em Java
-// Se for necessário, pode adicionar novamente
-
-
-
-// Limpeza do build
-tasks.register("clean") {
-    group = "build"
-    doLast {
-        delete(rootProject.buildDir)
-    }
+tasks.register('clean', Delete) {
+    delete rootProject.buildDir
 }

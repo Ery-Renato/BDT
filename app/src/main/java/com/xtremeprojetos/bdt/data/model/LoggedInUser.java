@@ -1,18 +1,15 @@
 package com.xtremeprojetos.bdt.data.model;
 
 public class LoggedInUser {
+    private final int userId;
+    private final String displayName;
 
-    private String userId;
-    private String displayName;
-
-    // Construtor
-    public LoggedInUser(String userId, String displayName) {
+    public LoggedInUser(int userId, String displayName) {
         this.userId = userId;
         this.displayName = displayName;
     }
 
-    // Métodos de acesso (Getters)
-    public String getUserId() {
+    public int getUserId() {
         return userId;
     }
 

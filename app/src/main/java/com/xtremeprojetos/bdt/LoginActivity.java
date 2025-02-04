@@ -3,16 +3,14 @@ package com.xtremeprojetos.bdt;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText etMatriculaLogin, etSenhaLogin;
-    private Button btnLogin;
+    private EditText etMatricula;
+    private EditText etSenha;
     private BancoDeDados bancoDeDados;
 
     @Override
@@ -20,44 +18,50 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // Referências dos elementos da UI
-        etMatriculaLogin = findViewById(R.id.etMatriculaLogin);
-        etSenhaLogin = findViewById(R.id.etSenhaLogin);
-        btnLogin = findViewById(R.id.btnLogin);
+        // Inicializa os campos de entrada
+        etMatricula = findViewById(R.id.etMatricula);
+        etSenha = findViewById(R.id.etSenha);
 
-        // Inicializando o objeto BancoDeDados com o contexto da Activity
+        // Inicializa o banco de dados passando o contexto da atividade
         bancoDeDados = new BancoDeDados(this);
 
-        // Configurando o clique do botão de login
-        btnLogin.setOnClickListener(new View.OnClickListener() {
+        // Lógica para o botão de login
+        findViewById(R.id.btnLogin).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                realizarLogin();
+                // Obtém os valores dos campos
+                String matricula = etMatricula.getText().toString().trim();
+                String senha = etSenha.getText().toString().trim();
+
+                // Valida os campos
+                if (matricula.isEmpty() || senha.isEmpty()) {
+                    Toast.makeText(LoginActivity.this, "Preencha todos os campos!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                // Consulta o motorista no banco de dados
+                Motorista motorista = bancoDeDados.consultarMotorista(matricula, senha);
+
+                if (motorista != null) {
+                    // Login bem-sucedido: Redireciona para a tela principal
+                    Intent intent = new Intent(LoginActivity.this, TelaPrincipalActivity.class);
+                    startActivity(intent);
+                    finish(); // Fecha a tela de login
+                } else {
+                    // Login falhou: Exibe uma mensagem de erro
+                    Toast.makeText(LoginActivity.this, "Matrícula ou senha incorretos!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
-    }
 
-    private void realizarLogin() {
-        // Obtendo os valores dos campos de matrícula e senha
-        String matricula = etMatriculaLogin.getText().toString().trim();
-        String senha = etSenhaLogin.getText().toString().trim();
-
-        // Verificando se os campos estão preenchidos
-        if (matricula.isEmpty() || senha.isEmpty()) {
-            Toast.makeText(this, "Preencha todos os campos!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // Verificando se a matrícula e a senha são válidas
-        Motorista motorista = bancoDeDados.consultarMotorista(matricula, senha);
-        if (motorista != null) {
-            // Login bem-sucedido
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish(); // Finaliza a LoginActivity para evitar que o usuário volte para ela
-        } else {
-            // Login falhou
-            Toast.makeText(this, "Matrícula ou senha incorretos!", Toast.LENGTH_SHORT).show();
-        }
+        // Lógica para o botão de cadastrar motorista
+        findViewById(R.id.btnCadastrarMotorista).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Redireciona para a tela de cadastro de motorista
+                Intent intent = new Intent(LoginActivity.this, CadastroMotoristaActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

@@ -2,25 +2,26 @@ package com.xtremeprojetos.bdt.ui.login;
 
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.annotation.NonNull;
-
+import com.xtremeprojetos.bdt.BancoDeDados;
 import com.xtremeprojetos.bdt.data.LoginDataSource;
 import com.xtremeprojetos.bdt.data.LoginRepository;
 
-/**
- * ViewModel provider factory to instantiate LoginViewModel.
- * Required given LoginViewModel has a non-empty constructor
- */
 public class LoginViewModelFactory implements ViewModelProvider.Factory {
 
-    @NonNull
+    private final BancoDeDados bancoDeDados;
+
+    public LoginViewModelFactory(BancoDeDados bancoDeDados) {
+        this.bancoDeDados = bancoDeDados;
+    }
+
     @Override
-    @SuppressWarnings("unchecked")
-    public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+    public <T extends ViewModel> T create(Class<T> modelClass) {
         if (modelClass.isAssignableFrom(LoginViewModel.class)) {
-            return (T) new LoginViewModel(LoginRepository.getInstance(new LoginDataSource()));
-        } else {
-            throw new IllegalArgumentException("Unknown ViewModel class");
+            // Cria uma instância de LoginDataSource com o BancoDeDados
+            LoginDataSource loginDataSource = new LoginDataSource(bancoDeDados);
+            LoginRepository loginRepository = new LoginRepository(loginDataSource);
+            return (T) new LoginViewModel(loginRepository);
         }
+        throw new IllegalArgumentException("Unknown ViewModel class");
     }
 }
